@@ -2,6 +2,7 @@
 
 
 
+
 function createEmployeeRecord (employeeData) {
 
     let employeeObject = {}
@@ -60,13 +61,19 @@ function createTimeOutObject(timeOut) {
 
 
     let hoursWorkedOnDate = function(employee, soughtDate){
+
+        
+
         let inEvent = employee.timeInEvents.find(function(e){
             return e.date === soughtDate
         })
     
+        
         let outEvent = employee.timeOutEvents.find(function(e){
             return e.date === soughtDate
+            
         })
+        
     
         return (outEvent.hour - inEvent.hour) / 100
     }
@@ -80,9 +87,12 @@ function createTimeOutObject(timeOut) {
 
 
  function allWagesFor(employee){
-     let  availableDates = employee.timeInEvents.map((time) => time.date);
-     const sum = availableDates.reduce((prevDate, currentDate) => wagesEarnedOnDate(employee,prevDate) + wagesEarnedOnDate(employee,currentDate));
-    return sum
+     
+     let availableDates = employee.timeInEvents.map((time) => time.date);
+     
+     const sum = availableDates.reduce((memo, currentDate) => memo + wagesEarnedOnDate(employee,currentDate), 0);
+    
+     return sum
 }
 
 
@@ -91,14 +101,17 @@ function findEmployeeByFirstName(employeeRecords, firstName) {
     let employeefirstName = employeeRecords.find(function(e) {
         return e.firstName === firstName
     })
-    debugger
+    
     return employeefirstName
 }
 
 
-function calculatePayroll(arrayOfEmployeeRecords) {
-    return arrayOfEmployeeRecords.reduce(function(memo, record){
+function calculatePayroll(employeeRecords) {
+
     
+    
+    return employeeRecords.reduce(function(memo, record){
+        
         console.log(memo + allWagesFor(record))
         return memo + allWagesFor(record)
         
